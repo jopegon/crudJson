@@ -1,0 +1,46 @@
+<!-- views/items.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Items</title>
+</head>
+
+<body>
+  <h1>Lista ip localización</h1>
+  <ul>
+    <% items.forEach(item=> { %>
+      <li>IP: <%= item.ip %> Localización: <%= item.localizacion %>
+            <a href="/items/<%= item.ip %>">modificar</a>
+            <a href="#" onclick="deleteItem('<%= item.ip %>')">eliminar</a>
+      </li>
+      <% }); %>
+  </ul>
+
+  <a href="/">Volver inicio</a>
+</body>
+<script>
+  function deleteItem(ip) {
+    if (confirm('¿Estás seguro de que deseas borrar este item?  ' + ip)) {
+      fetch(`/items/${ip}`, {
+        method: 'DELETE'
+      })
+        .then(response => {
+          if (response.ok) {
+            alert('Item borrado con éxito');
+            window.location.reload();
+          } else {
+            alert('Error al borrar el item');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al borrar el item');
+        });
+    }
+  }
+</script>
+
+</html>

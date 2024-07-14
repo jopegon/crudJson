@@ -1,0 +1,51 @@
+<!-- views/update.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actualizar Item</title>
+</head>
+<body>
+  <h1>Actualizar Item</h1>
+  <form id="updateForm">
+
+    <label for="ip">IP:</label>
+    <input type="text" id="IP" name="IP" value="<%= item.ip %>">
+    <br>
+    <label for="localizacion">localizacion:</label>
+    <input type="text" id="localizacion" name="localizacion" value="<%= item.localizacion %>">
+    <br>
+    <button type="submit">Actualizar</button>
+  </form>
+
+  <script>
+    document.getElementById('updateForm').addEventListener('submit', function(event) {
+      console.error("hago el put");
+      event.preventDefault();
+
+      const ip = document.getElementById('IP').value;
+      const localizacion = document.getElementById('localizacion').value;
+      console.error("hago el put");
+
+      fetch(`/items/${ip}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ip, localizacion })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Item actualizado con éxito');
+        document.getElementById('updateForm').reset();
+        location.href ="/";
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error al actualizar el item');
+      });
+    });
+  </script>
+</body>
+</html>

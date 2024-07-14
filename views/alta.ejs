@@ -1,0 +1,49 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Item</title>
+</head>
+<body>
+  <h1>Agregar Item</h1>
+  <form id="itemForm">
+    <label for="name">Nombre:</label>
+    <input type="text" id="ip" name="name" required>
+    <br>
+    <label for="description">Descripción:</label>
+    <input type="text" id="localizacion" name="description" required>
+    <br>
+    <button type="submit">Agregar Item</button>
+  </form>
+
+  <a href="/">Volver inicio</a>
+
+  <script>
+    document.getElementById('itemForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const ip = document.getElementById('ip').value;
+      const localizacion = document.getElementById('localizacion').value;
+
+      fetch('http://localhost:3000/items', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ip, localizacion })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Item agregado con éxito');
+        document.getElementById('itemForm').reset();
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Error al agregar el item');
+      });
+    });
+  </script>
+</body>
+</html>
